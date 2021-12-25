@@ -179,11 +179,8 @@ void loop() {
     PORTD |= _BV(2);
   }
 
-  if (IP5306_GetPowerSource()) {
-    digitalWrite(PIN_CHARGING, HIGH);
-  } else {
-    digitalWrite(PIN_CHARGING, LOW);
-  }
+  bool charging = IP5306_GetPowerSource();
+  digitalWrite(PIN_CHARGING, charging);
 
   byte level = IP5306_GetLevelLeds();
   if (level <= 1) {
@@ -213,7 +210,11 @@ void loop() {
     haptic_ctrl.write('\n');
     delay(10);
     haptic_ctrl.print("CM");
-    haptic_ctrl.write(params.max_motor);
+    if (charging) {
+      haptic_ctrl.write((uint8_t)0);
+    } else {
+      haptic_ctrl.write(params.max_motor);
+    }
     haptic_ctrl.write('\n');
     delay(10);
   }
