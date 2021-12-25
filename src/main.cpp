@@ -180,7 +180,8 @@ void loop() {
   }
 
   bool charging = IP5306_GetPowerSource();
-  digitalWrite(PIN_CHARGING, charging);
+  bool full = IP5306_GetBatteryFull();
+  digitalWrite(PIN_CHARGING, charging && !full);
 
   byte level = IP5306_GetLevelLeds();
   if (level <= 1) {
