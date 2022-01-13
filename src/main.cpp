@@ -169,7 +169,7 @@ void loop() {
   }
 
   // pulse pins to drain 45mA of current
-  if (millis() % 60000 < 500) {
+  if (millis() % 30000 < 1000) {
     digitalWrite(PIN_LED, HIGH);
     PORTB &= ~(_BV(7) | _BV(6));
     PORTD &= ~_BV(2);
